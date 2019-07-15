@@ -3,17 +3,12 @@
     <!-- 编程式跳转 -->
     <li class="proitem" v-for="(item, index) of prolist" @click="goDetail(item.id)" :key="index">
       <div class="itemimg">
-        <img :src="item.image_url"/>
+        <img :src="item.image_url.split(',')[0]"/>
       </div>
       <div class="iteminfo">
-        <h3>{{ item.goos_name }}</h3>
-        <!-- <div class="directors">
-          导演：<span v-for="(itm, idx) of item.directors" :key="idx">{{ itm.name }}/</span>
-        </div>
-        <div class="casts">
-          演员： <span v-for="(itm, idx) of item.casts" :key="idx">{{ itm.name }}/</span>
-        </div>
-        <Rating :rating="(item.rating.average / 2).toFixed(1)"/> -->
+        <p class="pro_title">{{ item.goos_name }}</p>
+        <p class="price">￥158</p>
+        <p class="com">1180条评论</p>
       </div>
     </li>
     <!-- 声明式跳转 -->
@@ -78,7 +73,26 @@ export default {
       }
     }
     .iteminfo {
-      @include flex();
+      position:relative;
+      left:0.2rem;
+      .pro_title {
+        width:90%;
+        height:45%;
+        overflow:hidden;
+        padding:0 0.2rem;
+        font-size:0.13rem;
+      }
+      .price {
+        font-size:0.16rem;
+        color:#FE4070;
+        margin-top:0.18rem;
+        padding-left:0.2rem;
+      }
+      .com {
+        font-size:0.12rem;
+        color:#999;
+        padding-left:0.2rem;
+      }
     }
   }
 }

@@ -18,9 +18,16 @@ router.get('/paging', function(req,res,next) {
   })
 });
 
+router.get('/detail',function(req,res,next) {
+  const num = req.query.id;
+  sql.find(Product,{id:num},{_id:0}).then((data)=>{
+    res.send(data)
+  })
+})
+
 router.get('/paging/image', function(req,res,next) {
-  const count = req.count*1 || 5;
-  const pageNum = req.pageNum*1 ||1;
+  const count = req.query.count*1 || 5;
+  const pageNum = req.query.pageNum*1 ||1;
   sql.paging(Product,{},{_id:0,image_url:1},count,pageNum).then((data)=>{
     res.send(data)
   })
