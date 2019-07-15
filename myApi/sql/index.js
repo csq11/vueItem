@@ -27,6 +27,14 @@ const sql = {
       })
     })
   },
+  paging (Collection, whereObj, showObj, count,pageNum) {
+    return new Promise(function (resolve, reject) {
+      Collection.find(whereObj, showObj).limit(count).skip((pageNum - 1) * count).exec((err, data) => {
+        if (err) throw err;
+        resolve(data)
+      })
+    })
+  },
   update (Collection, whereObj, updateObj, updateType) {
     // Collection['updateOne']()   <===> Collection.updateOne()
     // style.width = '100px'    style['width'] = '100px';

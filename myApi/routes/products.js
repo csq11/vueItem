@@ -10,4 +10,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+router.get('/paging', function(req,res,next) {
+  const count = req.query.count*1 || 5;
+  const pageNum = req.query.pageNum*1 ||1;
+  sql.paging(Product,{},{_id:0},count,pageNum).then((data)=>{
+    res.send(data)
+  })
+});
+
+router.get('/paging/image', function(req,res,next) {
+  const count = req.count*1 || 5;
+  const pageNum = req.pageNum*1 ||1;
+  sql.paging(Product,{},{_id:0,image_url:1},count,pageNum).then((data)=>{
+    res.send(data)
+  })
+})
+
+
 module.exports = router;

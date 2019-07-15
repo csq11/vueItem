@@ -7,7 +7,7 @@
         </router-link>
         <router-link to="/kind" tag="li">
           <span class = "iconfont icon-tubiao113"></span>
-          <p>分类</p>
+          <p>拼团</p>
         </router-link>
         <router-link to="/cart" tag="li">
           <span class = "iconfont icon-gouwuche"></span>

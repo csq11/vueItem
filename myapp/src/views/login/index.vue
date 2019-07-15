@@ -107,12 +107,12 @@ export default {
         return null
       }
       // 提交数据到服务器
-      fetch('https://www.daxunxun.com/users/login', {
+      fetch('http://localhost:3000/users/login', {
         method: 'post',
         headers: { // 看后端的接口
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'username=' + this.username + '&password=' + this.password
+        body: 'tel=' + this.username + '&password=' + this.password
       }).then(res => res.json()).then(data => {
         if (data === 1) {
           Toast('登录成功')
@@ -122,7 +122,7 @@ export default {
           // localStorage.setItem('isLogin', 'ok')
           this.$store.commit('changeLoginState', 'ok')
           this.$router.back()
-        } else if (data === 2) {
+        } else if (data === 3) {
           Dialog.confirm({
             title: '提示',
             message: '该用户还未注册，是否注册'
@@ -132,7 +132,7 @@ export default {
           }).catch(() => {
             // on cancel
           })
-        } else if (data === -1) {
+        } else if (data === 2) {
           Toast('密码错误')
         } else {
           Toast('登录失败')
