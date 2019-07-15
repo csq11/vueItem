@@ -1,16 +1,14 @@
+// module.exports = app;
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-// 前后端不分离
+
 var indexRouter = require('./routes/index');
+var productsRouter = require('./routes/products');
 var usersRouter = require('./routes/users');
-var productRouter = require('./routes/product');
-// 前后端分离
-var apiUsersRouter = require('./api/users');
-var apiProductsRouter = require('./api/products');
 
 var app = express();
 
@@ -38,14 +36,10 @@ app.use(session({ // 修改完代码之后 重新需要登陆，这是正常
   resave : true, //强制保存session 默认为 true，建议设置成false 
   saveUninitialized : false ////强制将未初始化的session存储 默认为true，建议设置成true 
 }));
-// 前后端不分离
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/product', productRouter);
-// 前后端分离
-app.use('/api/users', apiUsersRouter);
-app.use('/api/products', apiProductsRouter);
 
+app.use('/',indexRouter);
+app.use('/products',productsRouter)
+app.use('/users',usersRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
