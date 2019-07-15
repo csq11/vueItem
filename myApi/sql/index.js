@@ -7,7 +7,7 @@ const sql = {
       })
     })
   },
-  find (Collection, whereObj, showObj,num) {
+  find (Collection, whereObj, showObj) {
     // return new Promise(function (resolve, reject) {})
     // return new Promise(function (resolve, reject) { // 异步操作})
     // return new Promise(function (resolve, reject) { // 异步操作 - reslove(data)})

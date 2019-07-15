@@ -37,12 +37,12 @@ router.get('/register',function(req,res,next){
 });
 
 router.post('/login', function(req,res,next){
-  const tl = req.body.tel;
-  const pwd = req.body.password;
+  const tl = req.query.tel;
+  const pwd = req.query.password;
   var flag = false;
   sql.find(User,{},{_id:0}).then((data)=>{
-    console.log(data);
     for(let i=0;i<data.length;i++) {
+      // res.send(tl)
       if(data[i].tel === tl ) {
         flag = true;
         pd = data[i].password

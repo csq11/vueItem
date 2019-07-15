@@ -3,17 +3,17 @@
     <!-- 编程式跳转 -->
     <li class="proitem" v-for="(item, index) of prolist" @click="goDetail(item.id)" :key="index">
       <div class="itemimg">
-        <img :src="item.images.small" :alt="item.alt" />
+        <img :src="item.image_url"/>
       </div>
       <div class="iteminfo">
-        <h3>{{ item.title }} --- {{ item.rating.average }}</h3>
-        <div class="directors">
+        <h3>{{ item.goos_name }}</h3>
+        <!-- <div class="directors">
           导演：<span v-for="(itm, idx) of item.directors" :key="idx">{{ itm.name }}/</span>
         </div>
         <div class="casts">
           演员： <span v-for="(itm, idx) of item.casts" :key="idx">{{ itm.name }}/</span>
         </div>
-        <Rating :rating="(item.rating.average / 2).toFixed(1)"/>
+        <Rating :rating="(item.rating.average / 2).toFixed(1)"/> -->
       </div>
     </li>
     <!-- 声明式跳转 -->
@@ -36,15 +36,11 @@
 </template>
 
 <script>
-import Rating from '@/components/common/Rating'
 
 export default {
   // props: ['prolist']
   props: {
     prolist: Array
-  },
-  components: {
-    Rating
   },
   methods: {
     goDetail (id) {
@@ -67,12 +63,16 @@ export default {
 
   .proitem {
     @include flexbox();
-    @include rect(100%, 1.1rem);
-    @include border(0 0 1px 0,  #000, solid);
+    @include rect(100%, 1.5rem);
+    @include border(0 0 0.3rem 0,  rgb(246, 244, 244), solid);
+    @include margin(0.1rem 0);
     .itemimg {
-      @include rect(1.1rem, 1.1rem);
+      @include rect(1.5rem, 1.5rem);
+      position: relative;
+      top:-0.2rem;
+      left:0.1rem;
       img {
-        @include rect(0.9rem, 0.9rem);
+        @include rect(1.5rem, 1.5rem);
         @include margin(0.1rem);
         @include border(1px, #000, solid);
       }
