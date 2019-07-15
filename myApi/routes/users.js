@@ -36,24 +36,25 @@ router.get('/register',function(req,res,next){
   })
 });
 
-router.get('/login', function(req,res,next){
-  const tl = req.query.username;
-  const pwd = req.query.password;
+router.post('/login', function(req,res,next){
+  const tl = req.body.tel;
+  const pwd = req.body.password;
   var flag = false;
   sql.find(User,{},{_id:0}).then((data)=>{
-    for(i=0;i<data.length;i++) {
+    console.log(data);
+    for(let i=0;i<data.length;i++) {
       if(data[i].tel === tl ) {
         flag = true;
         pd = data[i].password
       }
       if(flag) {
         if(pd === pwd) {
-          res.send('登录成功')
+          res.send('1')//登录成功
         } else {
-          res.send('密码错误')
+          res.send('2')//密码错误
         }
       } else {
-        res.send('用户不存在')
+        res.send('3')//用户不存在
       }
     }
   })
