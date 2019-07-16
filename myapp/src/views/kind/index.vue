@@ -38,7 +38,7 @@ export default {
     }
   },
   mounted () {
-    fetch('http://localhost:3000/products/?count=10&pageNum=1').then(res => res.json()).then(data => {
+    fetch('http://10.11.56.133:3000/products/?count=10&pageNum=1').then(res => res.json()).then(data => {
       console.log(data)
       this.kindlist = data
     })
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
       onLoad () {
-        fetch('http://localhost:3000/products/paging/?count=10&pageNum='+this.pageNum).then(res => res.json()).then(data => {
+        fetch('http://10.11.56.133:3000/products/paging/?count=10&pageNum='+this.pageNum).then(res => res.json()).then(data => {
             this.loading = false // 数据加载完毕
             this.pageNum++
             if (data.length === 0) {

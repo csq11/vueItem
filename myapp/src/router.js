@@ -54,8 +54,8 @@ const router = new Router({
       name: 'kind', // 路由的名字----命名路由
       // component: () => import('./views/kind/index.vue')
       components: {
-        default: () => import('./views/kind/index.vue')
-        // footer: Footer // 如果页面不需要底部，可以直接不写 ---- 命名视图
+        default: () => import('./views/kind/index.vue'),
+        footer: Footer // 如果页面不需要底部，可以直接不写 ---- 命名视图
       }
     },
     {
