@@ -2,74 +2,82 @@
   <div class="container">
     <header class="header">分类头部</header>
     <div class="content">
-     <!--  {{ count }}
-      <button @click="add">加1</button>
-      <Myinput
-        label = "手机号"
-        v-model="username"
-        required
-        clearable
-        placeholder = "请输入您的手机号"
-      />
-      <Myinput
-        label = "密码"
-        v-model="password"
-        placeholder = "请输入您的密码"
-        clearable
-        err="密码格式错误"
-      /> -->
       <van-list
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
       >
-      <!-- <img src="https://s11.mogucdn.com/mlcdn/c45406/181123_498kc2f9gdc9if7ke2fe35egahhjl_640x960.jpg" alt=""> -->
-        <van-cell
-          v-for="item in list"
-          :key="item"
-          :title="item"
-        />
+      <Kindlist :kindlist = "kindlist"/>
       </van-list>
     </div>
-
   </div>
 </template>
 
 <script>
-import Myinput from '@/components/Myinput'
+import Vue from 'vue'
+import { List } from 'vant'
+import Kindlist from '@/components/common/Kindlist'
+import Backtop from '@/components/Backtop'
+Vue.use(List)
+Vue.use(Backtop)
+
 export default {
   components: {
-    Myinput
+    Kindlist,
+    Backtop
   },
   data() {
     return {
-      list: [],
+      kindlist: [],
       loading: false,
       finished: false,
-      username: '',
-      password: ''
+      // username: '',
+      // password: '',
+      pageNum:2
     }
-  }
-    ,
-  method: {
-    onLoad() {
-      fetch('http://localhost:3000/products').then(res => res.json()).then(data => {
+  },
+  mounted () {
+    fetch('http://localhost:3000/products/?count=10&pageNum=1').then(res => res.json()).then(data => {
+      console.log(data)
+      this.kindlist = data
+    })
+    const content = document.querySelector('.content')
+    content.addEventListener('scroll', this.onScroll)
+  },
+  methods: {
+      onLoad () {
+        fetch('http://localhost:3000/products/paging/?count=10&pageNum='+this.pageNum).then(res => res.json()).then(data => {
+            this.loading = false // 数据加载完毕
+            this.pageNum++
+            if (data.length === 0) {
+              console.log('没有数据了')
+              this.finished = true // 没有数据了
+            } else {
+              // 有数据就要涉及到数字的合并   concat
+              this.kindlist = [...this.kindlist, ...data]
+            }
+        })
+        // 异步更新数据
+          // setTimeout(() => {
+          //   for (let i = 0; i < 10; i++) {
+          //     this.list.push(this.list.length + 1);
+          //   }
+          //   // 加载状态结束
+          //   this.loading = false;
 
-      })
-      // 异步更新数据
-        setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            this.list.push(this.list.length + 1);
+          //   // 数据全部加载完成
+          //   if (this.list.length >= 40) {
+          //     this.finished = true;
+          //   }
+          // }, 500);
+        },
+      onScroll(){
+         if (event.target.scrollTop > 150) {
+            this.flag = true
+          } else {
+            this.flag = false
           }
-          // 加载状态结束
-          this.loading = false;
-
-          // 数据全部加载完成
-          if (this.list.length >= 40) {
-            this.finished = true;
-          }
-        }, 500);
       }
     }
   }
