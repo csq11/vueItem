@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <header class="header">团购</header>
+    <header class="header">
+      <div>推荐</div>
+      <div>美妆</div>
+      <div>母婴健康</div>
+      <div>家居</div>
+    </header>
     <div class="content">
       <van-list
         v-model="loading"
@@ -84,5 +89,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+  .header{
+    @include flexbox();
+    text-align: center;
+  }
 </style>
