@@ -2,7 +2,9 @@
   <div class="container">
     <header class="header">
       <div class="search-box">
-        <input type="text" placeholder="搜索商品 分类 功效">
+        <input type="text" placeholder="搜索商品 分类 功效" disabled>
+        <van-button class="popsearch" @click="showPopsearch"></van-button>
+        <van-popup v-model="show1" position="top" :style="{width:'100%',height:'20%'}">内容</van-popup>
         <!-- <span><van-icon name="search"/></span> -->
         <van-button class="popbtn" @click="showPopup">
           <van-icon class="search-icon" name="search"/>
@@ -45,6 +47,7 @@ Vue.use(Button)
 export default {
   data () {
     return {
+      show1: false,
       bannerlist: [],
       prolist: [],
       loading: false, // 当组件滚动到底部时，会触发load事件并将loading设置成true
@@ -57,12 +60,15 @@ export default {
     }
   },
   methods: {
+    showPopsearch () {
+      this.show1 = true
+    },
     showPopup () {
       this.show = true
     },
     onRefresh () {
       this.isLoading = true
-      fetch('http://localhost:3000/products/paging').then(res => res.json()).then(data => {
+      fetch('http://10.11.56.160:3000/products/paging').then(res => res.json()).then(data => {
         this.isLoading = false // 下拉刷新结束
         this.prolist = data // 重置列表的数据
         this.pageNum = 1 // 重置页码 --- 下拉刷新相当于第一页数据
@@ -72,7 +78,7 @@ export default {
     onLoad () {
       console.log('可以加载数据了')
       this.loading = true // 开始加载数据
-      fetch('http://localhost:3000/products/paging?count=10&start=' + this.pageNum * 20)
+      fetch('http://10.11.56.160:3000/products/paging?count=10&start=' + this.pageNum * 20)
         .then(res => res.json()).then(data => {
           this.loading = false // 数据加载完毕
           this.pageNum++
@@ -100,7 +106,7 @@ export default {
   },
   mounted () {
     // 请求的是列表的数据
-    fetch('http://localhost:3000/products').then(res => res.json()).then(data => {
+    fetch('http://10.11.56.160:3000/products').then(res => res.json()).then(data => {
       this.prolist = data
     })
     // 找到DOM节点
@@ -131,6 +137,7 @@ export default {
   width:100%;
   height: 100%;
   background: #fff;
+  position:relative;
   input {
     display:inline-block;
     width:80%;
@@ -149,6 +156,14 @@ export default {
     color:#ccc;
     font-size:0.15rem;
     text-align:center;
+  }
+  .popsearch {
+    position:absolute;
+    width:80%;
+    height:80%;
+    background:brown;
+    left:0;
+    top:0;
   }
   .popbtn {
     display:inline-block;
