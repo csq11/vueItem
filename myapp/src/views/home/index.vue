@@ -78,7 +78,7 @@ export default {
     onLoad () {
       console.log('可以加载数据了')
       this.loading = true // 开始加载数据
-      fetch('http://10.11.56.160:3000/products/paging?count=10&start=' + this.pageNum * 20)
+      fetch('http://10.11.56.160:3000/products/paging?count=10&start=' + this.pageNum * 10)
         .then(res => res.json()).then(data => {
           this.loading = false // 数据加载完毕
           this.pageNum++
