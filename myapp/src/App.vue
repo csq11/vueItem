@@ -50,7 +50,7 @@ html, body, #app, .box {
     @include flex-direction(column);
     .header {
       @include rect(100%, 0.44rem);
-      @include background-color(#f66);
+      @include background-color(#fff);
     }
     .content {
       @include flex();

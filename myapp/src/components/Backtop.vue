@@ -41,9 +41,24 @@ export default {
   props: ['show'],
   methods: {
     backtop () {
-      const content = document.querySelector('#content')
+      const content = document.querySelector('.content')
       content.scrollTop = 0 // 可以自行扩展回到顶部的效果
     }
   }
 }
 </script>
+<style lang="scss">
+  .backTop {
+    border-radius: 50%;
+    position: fixed;
+    bottom: 0.6rem;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    z-index: 99;
+    overflow: hidden;
+    color: #666;
+    font-size:40px!important;
+  }
+</style>
