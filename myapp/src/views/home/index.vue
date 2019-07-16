@@ -1,6 +1,15 @@
 <template>
   <div class="container">
-    <header class="header">首页头部</header>
+    <header class="header">
+      <div class="search-box">
+        <input type="text" placeholder="搜索商品 分类 功效">
+        <!-- <span><van-icon name="search"/></span> -->
+        <van-button class="popbtn" @click="showPopup">
+          <van-icon class="search-icon" name="search"/>
+        </van-button>
+        <van-popup v-model="show" position="right" :style="{width:'80%',height:'100%'}">内容</van-popup>
+      </div>
+    </header>
     <div class="content" id="content">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <!-- <van-swipe :autoplay="3000" indicator-color="white">
@@ -24,12 +33,15 @@
 
 <script>
 import Vue from 'vue'
-import { List, PullRefresh } from 'vant'
+import { List, PullRefresh, Icon, Popup, Button } from 'vant'
 import Prolist from '@/components/common/Prolist'
 import Backtop from '@/components/Backtop'
 
 Vue.use(List)
 Vue.use(PullRefresh)
+Vue.use(Icon)
+Vue.use(Popup)
+Vue.use(Button)
 export default {
   data () {
     return {
@@ -39,10 +51,15 @@ export default {
       finished: false, // 当没有数据时，此值为true
       pageNum: 1, // 页码
       isLoading: false,
-      flag: false
+      flag: false,
+      img: '',
+      show: false
     }
   },
   methods: {
+    showPopup () {
+      this.show = true
+    },
     onRefresh () {
       this.isLoading = true
       fetch('http://localhost:3000/products/paging').then(res => res.json()).then(data => {
@@ -84,7 +101,6 @@ export default {
   mounted () {
     // 请求的是列表的数据
     fetch('http://localhost:3000/products').then(res => res.json()).then(data => {
-      console.log(data)
       this.prolist = data
     })
     // 找到DOM节点
@@ -111,10 +127,46 @@ export default {
 </script>
 
 <style lang="scss">
-.van-swipe {
-  height: 1.5rem;
-  img {
-    width: 100%;
+.search-box {
+  width:100%;
+  height: 100%;
+  background: #fff;
+  input {
+    display:inline-block;
+    width:80%;
+    height:80%;
+    position:relative;
+    left:0.2rem;
+    top:0.08rem;
+    background:rgb(236, 233, 233);
+    border-radius: 20px;
+    outline: none;
+    padding-left:0.2rem;
+    font-size:0.13rem;
+    border:none
+  }
+  input::-webkit-input-placeholder {
+    color:#ccc;
+    font-size:0.15rem;
+    text-align:center;
+  }
+  .popbtn {
+    display:inline-block;
+    width:0.3rem;
+    height:0.3rem;
+    position:absolute;
+    right:0.18rem;
+    top:0.12rem;
+    font-size:0.3rem;
+    vertical-align:top;
+    background:rgba(255, 255, 255, 0);
+    border:none
+  }
+  .search-icon {
+    color:#222;
+    position:absolute;
+    left:0;
+    top:0;
   }
 }
 .backTop {
@@ -124,6 +176,5 @@ export default {
   width: 30px;
   height: 30px;
   background-color: #fff;
-  border-radius: 50%;
 }
 </style>

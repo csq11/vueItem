@@ -2,16 +2,21 @@
   <div class="box">
     <div class="container">
       <van-nav-bar
-        :title="title"
-        left-text="返回"
-        right-text="分享"
+        class="topbar"
+        :title="shopname"
+        right-text="home"
         left-arrow
         @click-left="back"
-        @click-right="share"
+        @click-right="back"
       />
       <div class="content">
-        {{ title }}
-        <Rating :rating="(rating / 2).toFixed(1)"/>
+         <img src=''>
+         <img class="main_pic" :src="img"/>
+         <!-- <img class="main_pic" img1?:src="img1" : src="" />
+         <img class="main_pic" img2?:src="img2" : src="" />
+         <img class="main_pic" img3?:src="img3" : src="" /> -->
+         <img class="goods1" :src="goods1"/>
+         <img class="goods2" :src="goods2"/>
       </div>
     </div>
     <van-goods-action>
@@ -58,7 +63,6 @@
 <script>
 import Vue from 'vue'
 import { GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, NavBar } from 'vant'
-import Rating from '@/components/common/Rating'
 
 Vue.use(GoodsAction).use(GoodsActionIcon).use(GoodsActionButton)
 Vue.use(Sku)
@@ -66,8 +70,13 @@ Vue.use(NavBar)
 export default {
   data () {
     return {
-      title: '',
-      rating: '',
+      shopname: '',
+      img: '',
+      img1: '',
+      img2: '',
+      img3: '',
+      goods1: '',
+      goods2: '',
       show: false,
       goods: {
         // 商品标题
@@ -133,20 +142,20 @@ export default {
       }
     }
   },
-  components: {
-    Rating
-  },
   mounted () {
     // console.log(this.$route) // 打印当前路由的信息
     // const id = this.$route.params.id
     // const { id } = this.$route.params
     // const { params: { id } } = this.$route // 解构中的解构
     const { $route: { params: { id } } } = this
-    console.log(id)
-    fetch('https://www.daxunxun.com/detail?id=' + id).then(res => res.json()).then(data => {
-      console.log(data[0])
-      this.title = data[0].title
-      this.rating = data[0].rating.average
+    fetch('http://localhost:3000/products/detail?id=' + id).then(res => res.json()).then(data => {
+      this.shopname = data[0].shopname
+      this.img = data[0].image_url.split(',')[0]
+      this.img1 = data[0].image_url.split(',')[1]
+      this.img2 = data[0].image_url.split(',')[2]
+      this.img3 = data[0].image_url.split(',')[3]
+      this.goods1 = data[0].goods_more1
+      this.goods2 = data[0].goods_more2
     })
   },
   methods: {
@@ -177,14 +186,21 @@ export default {
 </script>
 
 <style lang="scss">
-.van-nav-bar {
-  background-color: #f66;
-  color: #fff;
-}
-.van-nav-bar__text, .van-nav-bar__title {
-  color: #fff;
+.topbar {
+  background:#e9e8e8;
+  color:#222;
 }
 .van-nav-bar .van-icon {
-    color: #fff;
+    color: rgb(160, 155, 155);
+}
+.van-nav-bar__title {
+  color: #222;
+}
+.van-nav-bar__text {
+  color: rgb(160, 155, 155);
+}
+.main_pic, .goods1, .goods2 {
+  width:100%;
+  height:70%;
 }
 </style>
