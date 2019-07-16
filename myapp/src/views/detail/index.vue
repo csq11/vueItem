@@ -10,13 +10,56 @@
         @click-right="back"
       />
       <div class="content">
-         <img src=''>
-         <img class="main_pic" :src="img"/>
-         <!-- <img class="main_pic" img1?:src="img1" : src="" />
-         <img class="main_pic" img2?:src="img2" : src="" />
-         <img class="main_pic" img3?:src="img3" : src="" /> -->
-         <img class="goods1" :src="goods1"/>
-         <img class="goods2" :src="goods2"/>
+        <img class="main_pic" :src="img"/>
+        <div class="wrap">
+          <span class="norprice">￥{{ norprice }}</span>
+          <span class="preprice">￥{{ preprice }}</span>
+          <span class="pernum">{{ person }}人已购买</span>
+          <p class="countDown">
+            <span style="color:#999">还剩</span><van-count-down class="time" :time="time" />
+          </p>
+          <p class="goodsname">{{ goodsname }}</p>
+          <div class="collapse">
+            <van-collapse v-model="activeNames">
+            <van-collapse-item name="1">
+              <div slot="title"><span class="c-title">运费</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                至<van-icon class="icolor" name="location-o" />北京市-市辖区-东城区
+              </div>
+              <van-popup v-model="aaa">
+                <van-area :area-list="areaList" />
+              </van-popup>
+            </van-collapse-item>
+            <van-collapse-item title="运费" name="2">
+              <div slot="title"><span class="c-title">运费</span>
+                <span class="c-content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件数满一件，全国包邮</span>
+              </div>
+              内容
+            </van-collapse-item>
+            <van-collapse-item title="说明" name="3" disabled>
+              <div slot="title"><span class="c-title">说明</span>
+                <span class="c-content">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <van-icon class="icolor" name="passed" />七天拆封无条件退货&nbsp;&nbsp;&nbsp;&nbsp;
+                  <van-icon class="icolor" name="passed" />支持分期
+                </span>
+              </div>
+              内容
+            </van-collapse-item>
+          </van-collapse>
+          </div>
+        </div>
+        <!-- ------container end------ -->
+        <div class="purchase">
+          <span class="p-title">请选择</span>
+          <span class="p-content">分类&nbsp;&nbsp;型号</span>
+          <van-icon class="p-arrow" name="arrow" />
+        </div>
+        <img class="goods1" :src="goods1"/>
+        <img class="goods2" :src="goods2"/>
+        <img class="main_pic" :src="img"/>
+        <!-- <img class="main_pic" :src="img1" />
+        <img class="main_pic" :src="img2" />
+        <img class="main_pic" :src="img3" /> -->
       </div>
     </div>
     <van-goods-action>
@@ -62,19 +105,32 @@
 
 <script>
 import Vue from 'vue'
-import { GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, NavBar } from 'vant'
+import { Button, Popup, Area, Icon, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Collapse, CollapseItem, NavBar, CountDown } from 'vant'
 
 Vue.use(GoodsAction).use(GoodsActionIcon).use(GoodsActionButton)
 Vue.use(Sku)
 Vue.use(NavBar)
+Vue.use(CountDown)
+Vue.use(Collapse).use(CollapseItem)
+Vue.use(Icon)
+Vue.use(Area)
+Vue.use(Popup)
+Vue.use(Button)
 export default {
   data () {
     return {
+      areaList: '',
+      aaa: false,
+      activeNames: [''],
       shopname: '',
       img: '',
-      img1: '',
-      img2: '',
-      img3: '',
+      person: '',
+      // img1: '',
+      // img2: '',
+      // img3: '',
+      norprice: '',
+      goodsname: '',
+      time: 12 * 60 * 60 * 1000,
       goods1: '',
       goods2: '',
       show: false,
@@ -142,23 +198,36 @@ export default {
       }
     }
   },
+  computed: {
+    preprice () {
+      const that = this
+      const preprice = parseInt(that.norprice * 1.7)
+      return preprice
+    }
+  },
   mounted () {
     // console.log(this.$route) // 打印当前路由的信息
     // const id = this.$route.params.id
     // const { id } = this.$route.params
     // const { params: { id } } = this.$route // 解构中的解构
     const { $route: { params: { id } } } = this
-    fetch('http://localhost:3000/products/detail?id=' + id).then(res => res.json()).then(data => {
+    fetch('http://10.11.56.160:3000/products/detail?id=' + id).then(res => res.json()).then(data => {
       this.shopname = data[0].shopname
       this.img = data[0].image_url.split(',')[0]
-      this.img1 = data[0].image_url.split(',')[1]
-      this.img2 = data[0].image_url.split(',')[2]
-      this.img3 = data[0].image_url.split(',')[3]
+      this.norprice = data[0].normal_price
+      this.goodsname = data[0].goos_name
+      this.person = data[0].collection
+      // this.img1 = data[0].image_url.split(',')[1]
+      // this.img2 = data[0].image_url.split(',')[2]
+      // this.img3 = data[0].image_url.split(',')[3]
       this.goods1 = data[0].goods_more1
       this.goods2 = data[0].goods_more2
     })
   },
   methods: {
+    showPopup () {
+      this.aaa = true
+    },
     chat () {
       console.log('客服')
     },
@@ -199,8 +268,81 @@ export default {
 .van-nav-bar__text {
   color: rgb(160, 155, 155);
 }
+.wrap {
+  width:90%;
+  height:auto;
+  // background:pink;
+  margin:0 auto;
+  position:relative;
+}
 .main_pic, .goods1, .goods2 {
   width:100%;
   height:70%;
+}
+.norprice {
+  font-size:0.3rem;
+  color:#FE4070;
+  margin:0.2rem;
+  margin-left:0;
+}
+.preprice {
+  font-size:0.14rem;
+  color:#999;
+  margin:0.2rem 0;
+}
+.pernum {
+  position:absolute;
+  right:0;
+  top:0.14rem;
+}
+.countDown .time {
+  display:inline-block;
+  margin-left:0.03rem;
+  color:#999;
+}
+.goodsname {
+  margin:0.16rem 0;
+}
+.collapse {
+  position: relative;;
+  left:-0.13rem;
+  .icolor {
+    color:#FE4070;
+    vertical-align: baseline;
+  }
+  .c-title {
+    color:#999;
+  }
+  .c-content {
+    font-size:0.1rem;
+  }
+}
+.purchase {
+  width:100%;
+  height:0.5rem;
+  border-width:0.06rem 0 0.06rem 0;
+  border-color:rgb(246, 241, 241);
+  border-style:solid;
+  line-height:0.40rem;
+  position:relative;
+  .p-title {
+    color:#999;
+    margin-left:0.23rem;
+  }
+  .p-content {
+    margin-left:0.22rem;
+    font-size:0.1rem;
+  }
+  .p-arrow {
+    font-size:0.16rem;
+    position:absolute;
+    right:0.47rem;
+    top:0.12rem;
+    color:#999;
+  }
+}
+.goods1, .goods2 {
+  width:100%;
+  height:90%;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div class="backTop" v-show = "show" @click="backtop">
-    <van-icon name="upgrade" size="30px"/>
+    <div class="upArrow">
+      <van-icon name="upgrade" size="30px"/>
+    </div>
   </div>
 </template>
 
@@ -47,3 +49,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .upArrow {
+    background: #fff;
+  }
+</style>

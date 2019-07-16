@@ -7,8 +7,8 @@
       </div>
       <div class="iteminfo">
         <p class="pro_title">{{ item.goos_name }}</p>
-        <p class="price">￥158</p>
-        <p class="com">1180条评论</p>
+        <p class="price">￥{{ item.normal_price }}</p>
+        <p class="com">{{ item.collection }}条评论</p>
       </div>
     </li>
     <!-- 声明式跳转 -->
