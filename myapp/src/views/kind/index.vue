@@ -1,27 +1,14 @@
 <template>
   <div class="container">
-<<<<<<< HEAD
     <header class="header">团购</header>
-    <div class="content"
-=======
-    <header class="header">分类头部</header>
     <div class="content">
->>>>>>> csq
       <van-list
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
       >
-<<<<<<< HEAD
-        <van-cell
-          v-for="item in list"
-          :key="item"
-          :title="item"
-        />
-=======
       <Kindlist :kindlist = "kindlist"/>
->>>>>>> csq
       </van-list>
     </div>
   </div>
