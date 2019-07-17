@@ -9,6 +9,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products');
 var usersRouter = require('./routes/users');
+var consumersRouter = require('./routes/consumers')
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use(session({ // 修改完代码之后 重新需要登陆，这是正常
 app.use('/',indexRouter);
 app.use('/products',productsRouter)
 app.use('/users',usersRouter)
+app.use('/consumers',consumersRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

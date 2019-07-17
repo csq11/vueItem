@@ -54,9 +54,21 @@
           <span class="p-content">分类&nbsp;&nbsp;型号</span>
           <van-icon class="p-arrow" name="arrow" />
         </div>
-        <img class="goods1" :src="goods1"/>
-        <img class="goods2" :src="goods2"/>
-        <img class="main_pic" :src="img"/>
+        <!-- ----- Tabs  ------- -->
+        <van-tabs v-model="active" color="#FE4070">
+          <van-tab title="图文详情">
+            <img class="goods1" :src="goods1"/>
+            <img class="goods2" :src="goods2"/>
+            <img class="main_pic" :src="img"/>
+          </van-tab>
+          <van-tab title="产品参数">
+
+          </van-tab>
+          <van-tab title="评价">
+            
+          </van-tab>
+        </van-tabs>
+        
         <!-- <img class="main_pic" :src="img1" />
         <img class="main_pic" :src="img2" />
         <img class="main_pic" :src="img3" /> -->
@@ -105,7 +117,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Popup, Area, Icon, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Collapse, CollapseItem, NavBar, CountDown } from 'vant'
+import { Tab, Tabs, Button, Popup, Area, Icon, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Collapse, CollapseItem, NavBar, CountDown } from 'vant'
 
 Vue.use(GoodsAction).use(GoodsActionIcon).use(GoodsActionButton)
 Vue.use(Sku)
@@ -116,6 +128,7 @@ Vue.use(Icon)
 Vue.use(Area)
 Vue.use(Popup)
 Vue.use(Button)
+Vue.use(Tab).use(Tabs)
 export default {
   data () {
     return {
@@ -222,6 +235,9 @@ export default {
       // this.img3 = data[0].image_url.split(',')[3]
       this.goods1 = data[0].goods_more1
       this.goods2 = data[0].goods_more2
+    })
+    fetch('http://10.11.56.160:3000/consumers').then(res => res.json()).then(data => {
+      res.send(data)
     })
   },
   methods: {
