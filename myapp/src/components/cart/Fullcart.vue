@@ -14,6 +14,11 @@
           </div>
           <div class="right">
             <p class="pro-name">旋转化妆品收纳盒透明亚克力梳妆台护肤品口红桌面整理置物架网红</p>
+            <div class="pro-count">
+              <span class="reduce count-btn">－</span>
+              <span class="count-num">1</span>
+              <span class="add count-btn">＋</span>
+            </div>
             <span class="price">￥199</span>
           </div>
         </div>
@@ -77,14 +82,14 @@ export default {
       .info {
         display:inline-flex;
         .left {
-          width:1.7rem;
-          height:1.5rem;
+          width:1.2rem;
+          height:1rem;
           .ch-box {
             display:inline-block;
             margin-right:0.14rem;
           }
           .pro-img {
-            width:75%;
+            width:70%;
             height:80%;
             margin-top:0.1rem;
           }
@@ -95,9 +100,39 @@ export default {
           .pro-name {
             margin-left:0.1rem;
             margin-top:0.1rem;
+            width:60%;
+            height:0.2rem;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            margin-bottom:0.08rem;
+          }
+          .pro-count {
+            width:1.5rem;
+            height:0.24rem;
+            margin-bottom:0.08rem;
+            .count-btn {
+              display:inline-block;
+              width:0.24rem;
+              height:0.24rem;
+              font-size:0.2rem;
+              text-align:center;
+              line-height:0.2rem;
+              border:1px solid #ccc;
+              border-radius:50%;
+              margin:0 0.1rem;
+            }
+            .count-num {
+              display:inline-block;
+              width:0.2rem;
+              height:0.2rem;
+              line-height:0.2rem;
+              text-align:center;
+              font-size:0.16rem;
+            }
           }
           .price {
-            font-size:0.2rem;
+            font-size:0.16rem;
             color:#FE4070;
             margin-left:0.08rem;
           }
