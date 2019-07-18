@@ -58,8 +58,8 @@ Vue.use(Dialog)
 export default {
   data () {
     return {
-      username: '18717771641',
-      password: '123456',
+      username: '',
+      password: '',
       sms: '',
       code: 'a.a.a?a*aa'
     }
@@ -137,12 +137,12 @@ export default {
         return null
       }
       // 提交数据到服务器
-      fetch('https://www.daxunxun.com/users/register', {
+      fetch('http://localhost/users/register', {
         method: 'post',
         headers: { // 看后端的接口
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'username=' + this.username + '&password=' + this.password
+        body: 'tel=' + this.username + '&password=' + this.password
       }).then(res => res.json()).then(data => {
         if (data === 1) {
           Toast('注册成功')

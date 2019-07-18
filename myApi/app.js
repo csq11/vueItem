@@ -8,6 +8,7 @@ var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products');
+// var productsNum = require('./routes/products/?num');
 var usersRouter = require('./routes/users');
 var consumersRouter = require('./routes/consumers')
 
@@ -40,6 +41,7 @@ app.use(session({ // 修改完代码之后 重新需要登陆，这是正常
 
 app.use('/',indexRouter);
 app.use('/products',productsRouter)
+// app.use('/products/?num',productsNum)
 app.use('/users',usersRouter)
 app.use('/consumers',consumersRouter)
 // catch 404 and forward to error handler
@@ -57,5 +59,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
