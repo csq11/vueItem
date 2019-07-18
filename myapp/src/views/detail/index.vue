@@ -54,9 +54,71 @@
           <span class="p-content">分类&nbsp;&nbsp;型号</span>
           <van-icon class="p-arrow" name="arrow" />
         </div>
-        <img class="goods1" :src="goods1"/>
-        <img class="goods2" :src="goods2"/>
-        <img class="main_pic" :src="img"/>
+        <!-- ----- Tabs  ------- -->
+        <van-tabs v-model="active" color="#FE4070">
+          <van-tab title="图文详情">
+            <img class="goods1" :src="goods1"/>
+            <img class="goods2" :src="goods2"/>
+            <img class="main_pic" :src="img"/>
+          </van-tab>
+          <van-tab title="产品参数">
+            <p class="can-line">
+              <span class="can-title">商品名称</span>
+              <span class="can-content"></span>
+            </p>
+            <p class="can-line">
+              <span class="can-title">功效</span>
+              <span class="can-content">
+                保湿，滋润，排毒养颜
+              </span>
+            </p>
+            <p class="can-line">
+              <span class="can-title">特别说明</span>
+              <span class="can-content">
+                因整体来货，批号和日期在集装箱上，包装无批号和日期，建议自购买之日18个月之内用完，介意的MM慎购！
+              </span>
+            </p>
+            <p class="can-line">
+              <span class="can-title">产品包装</span>
+              <span class="can-content">多款商品随机发，请放心购买！</span>
+            </p>
+            <p class="can-line">
+              <span class="can-title">产品规格</span>
+              <span class="can-content">1.5g</span>
+            </p>
+            <p class="can-line">
+              <span class="can-title">原产地</span>
+              <span class="can-content">法国(具体生产日期以产品为准)</span>
+            </p>
+            <p class="can-line">
+              <span class="can-title">注意事项</span>
+              <span class="can-content">
+                因个人肤质不同，如有使用后不适者请立即停止使用
+              </span>
+            </p>
+            <p class="can-line" style="width:100%;height:0.5rem;"></p>
+          </van-tab>
+          <!-- -----------     comments   ---------------------- -->
+          <div class="wrap c-wrap">
+            <van-tab title="评价">
+              <ul>
+                <li v-for="(item, index) of commList" :key="index">
+                  <img class="pic" :src="item.pic" alt="">
+                  <span class="name">{{ item.name }}</span>
+                  <p class="date">{{ item.date }}</p>
+                  <p class="comments">
+                    {{ item.words }}
+                  </p>
+                  <div class="c-img">
+                    <img class="c-pro-img" :src="item.img1" alt="">
+                    <img class="c-pro-img" :src="item.img2" alt="">
+                  </div>
+                </li>
+              </ul>
+            </van-tab>
+          </div>
+          <!-- --------------------------------------------------- -->
+        </van-tabs>
         <!-- <img class="main_pic" :src="img1" />
         <img class="main_pic" :src="img2" />
         <img class="main_pic" :src="img3" /> -->
@@ -105,7 +167,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Popup, Area, Icon, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Collapse, CollapseItem, NavBar, CountDown } from 'vant'
+import { Tab, Tabs, Button, Popup, Area, Icon, GoodsAction, GoodsActionIcon, GoodsActionButton, Sku, Collapse, CollapseItem, NavBar, CountDown } from 'vant'
 
 Vue.use(GoodsAction).use(GoodsActionIcon).use(GoodsActionButton)
 Vue.use(Sku)
@@ -116,10 +178,19 @@ Vue.use(Icon)
 Vue.use(Area)
 Vue.use(Popup)
 Vue.use(Button)
+Vue.use(Tab).use(Tabs)
 export default {
   data () {
     return {
+      commList: [],
+      // name: '',
+      // words: '',
+      // pic: '',
+      // img1: '',
+      // img2: '',
+      // date: '',
       areaList: '',
+      active: '',
       aaa: false,
       activeNames: [''],
       shopname: '',
@@ -223,6 +294,15 @@ export default {
       this.goods1 = data[0].goods_more1
       this.goods2 = data[0].goods_more2
     })
+    const randCount = Math.floor(Math.random() * 9 + 6)
+    const randStart = Math.floor(Math.random() * 4 + 1)
+    fetch('http://10.11.56.160:3000/consumers/comments?randCount=' + randCount + '&randStart=' + randStart).then(res => res.json()).then(data => {
+      this.commList = [...this.commList, ...data]
+      console.log(this.commList)
+    })
+    // fetch('http://10.11.56.160:3000/consumers/comments?randCount=2&randStart=3').then(res => res.json()).then(data => {
+    //   console.log(data)
+    // })
   },
   methods: {
     showPopup () {
@@ -344,5 +424,54 @@ export default {
 .goods1, .goods2 {
   width:100%;
   height:90%;
+}
+.pic {
+  width:0.3rem;
+  height:0.3rem;
+  border-radius:50%;
+  margin-top:0.2rem;
+  margin-right:0.2rem;
+  vertical-align: bottom;
+}
+.name {
+  margin-top:0.2rem;
+  vertical-align: bottom;
+}
+.date {
+  margin: 0.12rem 0;
+  color:#999;
+}
+.c-img {
+  width:100%;
+  border-bottom:1px solid rgb(230, 228, 228);
+  .c-pro-img {
+    width:40%;
+    height:40%;
+    display:inline-block;
+    margin:0.08rem;
+    margin-left:0;
+  }
+}
+.can-line {
+width:100%;
+height:auto;
+line-height:0.4rem;
+border-bottom:1px solid rgb(230, 228, 228);
+display:flex;
+  .can-title {
+    display:inline-block;
+    width:1.5rem;
+    color:#999;
+    font-size:0.14rem;
+    margin-left:0.5rem;
+  }
+  .can-content {
+    width:80%;
+    display:inline-block;
+    font-size:0.14rem;
+    margin-right:0.6rem;
+    margin-left:0.3rem;
+    text-align:left;
+  }
 }
 </style>

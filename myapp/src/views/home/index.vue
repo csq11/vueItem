@@ -4,7 +4,14 @@
       <div class="search-box">
         <input type="text" placeholder="搜索商品 分类 功效" disabled>
         <van-button class="popsearch" @click="showPopsearch"></van-button>
-        <van-popup v-model="show1" position="top" :style="{width:'100%',height:'20%'}">内容</van-popup>
+        <van-popup class="vanpop" v-model="show1" position="right" :style="{width:'100%',height:'100%'}">
+          <div class="s-top">
+            <van-icon class="s-arrow" name="arrow-left" @click="show2"/>
+            <van-icon class="s-search" name="search" />
+            <input class="s-input" type="text"  placeholder="搜索商品名称、品牌、功效">
+            <span class="s-tip">搜索</span>
+          </div>
+        </van-popup>
         <!-- <span><van-icon name="search"/></span> -->
         <van-button class="popbtn" @click="showPopup">
           <van-icon class="search-icon" name="search"/>
@@ -60,6 +67,10 @@ export default {
     }
   },
   methods: {
+    show2 () {
+      this.show1 = false
+      this.show = true
+    },
     showPopsearch () {
       this.show1 = true
     },
@@ -162,8 +173,52 @@ export default {
     width:80%;
     height:80%;
     background:brown;
-    left:0;
-    top:0;
+    left:0.2rem;
+    top:0.08rem;
+    opacity:0;
+  }
+  .vanpop {
+    .s-top {
+      width:100%;
+      height:0.5rem;
+      line-height:0.5rem;
+      position:relative;
+      border-bottom:1px solid #ccc;
+      .s-arrow {
+        font-size:0.2rem;
+        position:absolute;
+        left:0.1rem;
+        top:0.15rem;
+      }
+      .s-input {
+        position:relative;
+        top:-0.01rem;
+        width:70%;
+        margin-left:0.2rem;
+        background:rgb(236, 236, 236);
+        padding-left:0.5rem;
+        box-sizing: border-box;
+        font-size:0.18rem;
+        color:#999;
+      }
+      .s-input::-webkit-input-placeholder {
+        color:#ccc;
+        font-size:0.15rem;
+        text-align:left;
+      }
+      .s-search {
+        font-size:0.2rem;
+        position:relative;
+        left:0.8rem;
+        top:0.06rem;
+        z-index:100;
+      }
+      .s-tip {
+        position:absolute;
+        right:0.2rem;
+        color:#888;
+      }
+    }
   }
   .popbtn {
     display:inline-block;
