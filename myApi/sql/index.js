@@ -27,7 +27,7 @@ const sql = {
       })
     })
   },
-  paging (Collection, whereObj, showObj, count,pageNum) {
+  paging (Collection, whereObj, showObj, count, pageNum) {
     return new Promise(function (resolve, reject) {
       Collection.find(whereObj, showObj).limit(count).skip((pageNum - 1) * count).exec((err, data) => {
         if (err) throw err;

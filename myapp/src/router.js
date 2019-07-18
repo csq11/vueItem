@@ -84,14 +84,14 @@ const router = new Router({
         footer: Footer // 为什么不用懒加载，因为多出需要调用，先引入再使用
       },
       children: [
-        {
-          path: 'nologin', // /user/nologin
-          component: () => import('@/components/user/NoLogin.vue')
-        },
-        {
-          path: 'login', // /user/login
-          component: () => import('@/components/user/Login.vue')
-        }
+        // {
+        //   path: 'nologin', // /user/nologin
+        //   component: () => import('@/components/user/NoLogin.vue')
+        // },
+        // {
+        //   path: 'login', // /user/login
+        //   component: () => import('@/components/user/Login.vue')
+        // }
       ]
     },
     {

@@ -50,10 +50,11 @@ export default {
 .price_ul{
     align-self: center;
     color:#fe4070;
-    font-size: 14px;
+    font-size: 16px;
 }
-.price_ul li:nth(2)-child{
+.price_ul li:nth-child(2){
   font-size: 12px;
+  color: #666;
 }
 .price_ul,.buyBtn{
   position: relative;
