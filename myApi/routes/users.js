@@ -4,7 +4,15 @@ var User = require('./../sql/user');
 var sql = require('./../sql/index'); // <==>  ./../sql
 /* GET users listing. */
 router.get('/',function(req,res,next){
-  sql.find(User,{},{_id:0}).then((data)=>{
+  const id=req.query.tel
+  sql.find(User,{tel:id},{_id:0}).then((data)=>{
+    res.send(data)
+  })
+});
+
+router.post('/info',function(req,res,next){
+  const id=req.body.tel
+  sql.find(User,{tel:id},{_id:0}).then((data)=>{
     res.send(data)
   })
 });

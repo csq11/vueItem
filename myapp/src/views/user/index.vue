@@ -135,6 +135,22 @@ export default {
       onClickRight() {
         Toast('按钮');
       }
+    },
+    mounted () {
+      alert(this.$store.state.loginState)
+      alert(this.$store.state.tel)
+      if(this.$store.state.loginState === 'ok'){
+        fetch('http://localhost:3000/users/info',{
+        method: 'post',
+        headers: { // 看后端的接口
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+          body: 'tel='+ this.$store.state.tel
+        }).then(res=>res.json()).then(data=>{
+          alert(data[0].tel)
+          console.log(data)
+        })
+      }
     }
   // watch: {
   //   $route (newVal, oldVal) {

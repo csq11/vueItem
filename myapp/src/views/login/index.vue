@@ -48,7 +48,7 @@ Vue.use(Dialog)
 export default {
   data () {
     return {
-      username:'13345678912',
+      username:'',
       password:''
     }
   },
@@ -123,6 +123,7 @@ export default {
           // 以后在需要验证用户是否登陆时，将此值取出来，然后随着请求发送到服务器，数据库中会有一个字段与之对应，如果匹配，表适用户是登陆的，如果不匹配，表示未登录
           // localStorage.setItem('isLogin', 'ok')
           this.$store.commit('changeLoginState', 'ok')
+          this.$store.commit('changeUser', this.username)
           console.log(this.$store)
           this.$router.back()
         } else if (data === 3) {
