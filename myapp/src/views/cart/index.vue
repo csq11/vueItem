@@ -1,32 +1,30 @@
 <template>
   <div class="container">
-    <header class="header">购物车头部</header>
-    <div class="content">购物车内容</div>
+    <header class="header cartheader"></header>
+    <div class="content">
+      <!-- <Emptycart /> -->
+      <Fullcart />
+    </div>
   </div>
 </template>
 
 <script>
+// import Emptycart from '@/components/cart/Emptycart.vue'
+import Fullcart from '@/components/cart/Fullcart.vue'
 export default {
-  mounted () {
-    fetch('http://localhost:3000/api/products').then(res => res.json()).then(data => {
-      console.log(data)
-    })
-  },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      console.log(vm)
-      // const loginState = vm.$store.state.loginState
-      const { $store: { state: { loginState } } } = vm
-      if (loginState === 'ok') {
-        next()
-      } else {
-        next('/login')
-      }
-    })
+  components: {
+    Fullcart
   }
+  // beforeRouteEnter (to,from,next) {
+  //   next(vm => {
+  //     if (vm.$store.state)
+  //   })
+  // }
 }
 </script>
 
 <style lang="scss">
-
+  .cartheader, .header {
+    background:#999;
+  }
 </style>

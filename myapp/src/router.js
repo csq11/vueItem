@@ -54,8 +54,8 @@ const router = new Router({
       name: 'kind', // 路由的名字----命名路由
       // component: () => import('./views/kind/index.vue')
       components: {
-        default: () => import('./views/kind/index.vue')
-        // footer: Footer // 如果页面不需要底部，可以直接不写 ---- 命名视图
+        default: () => import('./views/kind/index.vue'),
+        footer: Footer // 如果页面不需要底部，可以直接不写 ---- 命名视图
       }
     },
     {
@@ -65,7 +65,17 @@ const router = new Router({
       components: {
         default: () => import('./views/cart/index.vue'),
         footer: Footer // 为什么不用懒加载，因为多出需要调用，先引入再使用
-      }
+      },
+      children: [
+        {
+          path: 'fullcart', // /user/nologin
+          component: () => import('@/components/cart/Fullcart.vue')
+        },
+        {
+          path: 'emptycart', // /user/login
+          component: () => import('@/components/cart/Emptycart.vue')
+        }
+      ]
       // 路由独享的守卫 --- 本来就是一个路由的配置文件，写什么业务逻辑
       // beforeEnter (to, from, next) {
       //   if (localStorage.getItem('isLogin') === 'ok') {

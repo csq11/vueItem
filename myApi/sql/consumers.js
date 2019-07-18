@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ConsumerSchema = new Schema({
   name: { type: String },
   date: { type: String },
-  words: { type: Number },
+  words: { type: String },
   pic: { type: String },
   img1: { type: String },
   img2: { type: String }
