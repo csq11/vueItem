@@ -48,8 +48,8 @@ Vue.use(Dialog)
 export default {
   data () {
     return {
-      username:'',
-      password: ''
+      username:'13345678912',
+      password:''
     }
   },
   computed: {
@@ -114,6 +114,8 @@ export default {
         },
         body: 'tel=' + this.username + '&password=' + this.password
       }).then(res => res.json()).then(data => {
+        // alert(data);
+        // console.log(data)
         if (data === 1) {
           Toast('登录成功')
           // 如果使用的token，当你登陆成功，后端返回了一个token值，你将此值存储到本地
