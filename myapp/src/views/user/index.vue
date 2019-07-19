@@ -6,14 +6,35 @@
           <van-icon  class = "iconfont icon-shouye" slot="right" />
         </van-nav-bar>
       <!-- <header class="header">个人中心头部</header> -->
-        <div class="pt_10">
+        <div class="pt_10" v-show="flag">
             <img class="user" src="../../images/nologin.png" alt="头像">
         </div>
-        <div class="user_btn">
+        <div class="user_btn" v-show="flag">
             <router-link to ="/register" ><div class="btn">注册</div></router-link>
             <span>|</span>
             <router-link to ="/login" ><div class="btn">登陆</div></router-link>    
         </div>
+        <div class="login_info" v-show="loginFlag">
+          <div ref="username">JM1IEMAuRPOm0</div>
+          <div class="level">普通会员</div>
+        </div>
+      </div>
+      <div class="iconDiv bk_w loginList" v-show="loginFlag">
+          <div class="loginHeder">
+            <img class="user" src="../../images/nologin.png" alt="头像">
+          </div>
+          <ul>
+            <li><van-icon name="like-o"/></li>
+            <li>心愿单</li>
+          </ul>
+          <ul>
+            <li><van-icon name="clock-o"/></li>
+            <li>开售提醒</li>
+          </ul>
+          <ul>
+            <li><van-icon name="star-o"/></li>
+            <li>收藏</li>
+          </ul>
       </div>
       <div class="mt_10 order bk_w">
           <div>
@@ -86,7 +107,7 @@
             <van-icon name="arrow" class="ml_10"/>
           </div>              
       </div>
-      <div class="order bk_w">
+      <div class="order bk_w" @click="outLogin">
           <div>
             <van-icon name="setting-o" class="mr_10"/>
             <span>退出登录</span>
@@ -117,17 +138,20 @@
 
 <script>
 import Vue from 'vue' 
-import { NavBar, Icon, Button } from 'vant'
+import { NavBar, Icon, Button, Dialog } from 'vant'
 Vue.use(NavBar)
 Vue.use(Icon)
 Vue.use(Button)
+Vue.use(Dialog)
 
 export default {
-  // data () {
-  //   return {
-      
-  //   }
-  // },
+  // inject: ['reload'],
+  data () {
+    return {
+      flag:true,
+      loginFlag:false
+    }
+  },
    methods: {
       onClickLeft() {
         Toast('返回');
@@ -137,9 +161,11 @@ export default {
       }
     },
     mounted () {
-      alert(this.$store.state.loginState)
-      alert(this.$store.state.tel)
+      // alert(this.$store.state.loginState)
+      // alert(this.$store.state.tel)
       if(this.$store.state.loginState === 'ok'){
+        this.flag=false;
+        this.loginFlag=true;
         fetch('http://localhost:3000/users/info',{
         method: 'post',
         headers: { // 看后端的接口
@@ -147,9 +173,29 @@ export default {
         },
           body: 'tel='+ this.$store.state.tel
         }).then(res=>res.json()).then(data=>{
-          alert(data[0].tel)
+          this.$refs.username.innerHTML=data[0].tel
+          // alert(data[0].tel)
           console.log(data)
         })
+      }else{
+        this.flag=true;
+        this.loginFlag=false;
+      }
+    },
+    methods: {
+      outLogin () {
+        Dialog.confirm({
+            title: '提示',
+            message: '是否退出登录'
+          }).then(() => {
+            // on confirm
+            this.$store.state.loginState="";
+            // this.reload();
+            this.$router.go(0);
+          }).catch(() => {
+            // on cancel
+          })
+        
       }
     }
   // watch: {
@@ -192,6 +238,24 @@ export default {
 </script>
 
 <style lang="scss">
+.loginList>div,.loginList>ul{
+  width:25%;
+  text-align: center;
+}
+.loginHeder{
+  position: relative;
+}
+.loginHeder img{
+  position: absolute;
+  top:-100%;
+  left:60%;
+}
+.login_info{
+  padding-top:.3rem;
+  color: #fff;
+  width:60%;
+  float: right;
+}
 .hint {
     color: #999;
     font-size: 11px;
@@ -213,9 +277,10 @@ export default {
 .van-icon-pending-payment,.van-icon-send-gift-o,.van-icon-chat-o,.van-icon-after-sale{
   font-size:.25rem!important;
   display: block;
-  position: relative;
+  text-align: center;
+  /*position: relative;
   left:50%;
-  margin-left: -.125rem;
+  margin-left: -.125rem;*/
   /*margin-left:6px;*/
 }
 .order{
@@ -235,6 +300,7 @@ export default {
   background:#efefef;
 }
 .header_con{
+  overflow: hidden;
   background-image: -webkit-linear-gradient(294deg,#fd465f 0,#fc5e9f 100%);
   background-image: linear-gradient(-204deg,#fd465f 0,#fc5e9f 100%);
 }
