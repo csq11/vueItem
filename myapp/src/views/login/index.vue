@@ -6,38 +6,43 @@
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
+      :border="borderFlag"
+      class="header"
     />
     <div class="content">
-      <van-cell-group>
+      <div class="other-login">使用手机登录</div>
+      <van-cell-group :border="borderFlag">
         <van-field
           v-model="username"
-          required
           clearable
-          label="手机号"
           :right-icon="usernameIcon"
-          placeholder="请输入手机号"
-          :error-message="usernameState"
+          placeholder="请输入11位手机号"
+          :border="borderFlag"
         />
 
         <van-field
           v-model="password"
           type="password"
-          label="密码"
           clearable
-          placeholder="请输入密码"
+          placeholder="6-16登录密码"
           :right-icon="passwordIcon"
-          :error-message="passwordState"
-          required
+          :border="borderFlag"
         />
       </van-cell-group>
-      <van-button type="primary" size="normal" @click="login" :block="true">登录</van-button>
+      <div class="regDiv">
+        <van-button class="loginBtn" type="primary" size="normal" @click="login" :block="true">登录</van-button>
+      </div>
+      <van-popup v-model="show" :lazy-render="render">
+        <div class="showDiv" ref="showMessage"></div>
+        <div class="sureBtn" ref="showBtn" @click="hidePopup">确定</div>
+      </van-popup>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { NavBar, Field, Cell, CellGroup, Button, Toast, Dialog } from 'vant'
+import { NavBar, Field, Cell, CellGroup, Button, Toast, Dialog, Popup } from 'vant'
 
 Vue.use(NavBar)
 Vue.use(Field)
@@ -45,11 +50,16 @@ Vue.use(Cell).use(CellGroup)
 Vue.use(Button)
 Vue.use(Toast)
 Vue.use(Dialog)
+Vue.use(Popup)
+
 export default {
   data () {
     return {
-      username:'',
-      password:''
+      username:'13764236681',
+      password:'123456',
+      borderFlag:false,
+      render: false,
+      show: false
     }
   },
   computed: {
@@ -90,20 +100,38 @@ export default {
       }
     }
   },
+  // beforeRouteEnter(to,from,next){
+  //   console.log(from.name) 
+  //   next(vm=>{
+  //     console.log(vm)
+  //     if(from.name==='user'){
+  //       vm.store.commit('changeWhere','user')
+  //     }else{
+  //       vm.store.commit('changeWhere','')
+  //     }
+  //   })
+  // },
   methods: {
+    hidePopup() {
+      this.show = false;
+    },
     onClickLeft () {
-      this.$router.back()
+      this.$router.go(-1)
     },
     onClickRight () {
       this.$router.replace('/register')
     },
     login () {
       if (this.usernameIcon !== 'checked') {
-        Toast('手机号格式错误')
+        this.show=true
+        this.$refs.showMessage.innerHTML="请输入正确的手机号码"
+        // Toast('手机号格式错误')
         return null
       }
       if (this.passwordIcon !== 'checked') {
-        Toast('密码格式错误')
+        this.show=true
+        this.$refs.showMessage.innerHTML="请输入6-16位登录密码"
+        // Toast('密码格式错误')
         return null
       }
       // 提交数据到服务器
@@ -148,5 +176,77 @@ export default {
 </script>
 
 <style lang="scss">
+.header .van-nav-bar__title,.van-nav-bar .van-icon,.header .van-nav-bar__text{
+  color:#666;
+}
+.van-popup{
+  padding: 20px 40px 20px 40px;
+  border-radius: 10px;
+}
+.showDiv{
+  width:100%;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.sureBtn{
+    word-break: keep-all;
+    white-space: nowrap;
+    border: none;
+    outline: none;
+    background: #fe4070;
+    border-radius: 20px;
+    width: 150px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+}
+.van-nav-bar__text{
+  font-size: 14px;
+}
+.van-nav-bar__title{
+  font-size: 16px;
+}
+.other-login {
+  position: relative;
+  height: 58px;
+  line-height: 58px;
+  text-align: center;
+  color: #999;
+  border:none;
+}
+.van-button--primary{
+  background: #feb2c5;
+  border:none;
+  border-radius: 30px;
+} 
+.loginBtn{
+  margin-top: 15px;
+}
+.regDiv{
+  padding: 0 30px;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: #999!important;
+}
 
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #999!important;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #999!important;
+}   
+.van-cell-group{
+  padding: 0 30px;
+}
+.van-cell-group input{
+  background:#f5f5f5;
+  padding: 10px 0 10px 20px;
+  border-radius: 30px;
+}
+.content{
+  background: #fff;
+}
 </style>

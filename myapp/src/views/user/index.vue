@@ -2,7 +2,7 @@
   <div class="container">   
     <div class="content">
       <div class="header_con">
-        <van-nav-bar title="我的聚美" left-text="" left-arrow class="header">
+        <van-nav-bar ref="userHeader" title="我的聚美" left-text="" left-arrow class="headers" :border="borderFlag">
           <van-icon  class = "iconfont icon-shouye" slot="right" />
         </van-nav-bar>
       <!-- <header class="header">个人中心头部</header> -->
@@ -149,7 +149,8 @@ export default {
   data () {
     return {
       flag:true,
-      loginFlag:false
+      loginFlag:false,
+      borderFlag:false
     }
   },
    methods: {
@@ -197,6 +198,24 @@ export default {
           })
         
       }
+    },
+    beforeRouteEnter(to,from,next){
+      if(from.name==="login"||from.name==="register"){
+        // location.reload()
+        next(vm=>{
+          var a=document.querySelector(".van-nav-bar .van-icon")
+          var b=document.querySelector(".van-nav-bar__right").children
+          a.style.cssText ="color:#fff!important;"
+          b[0].style.cssText ="color:#fff!important;"
+          // b.style.color="#fff"
+          console.log(b[0])
+          // console.log(vm.$refs.userHeader)
+          // vm.$store.commit("changeUser","user")
+          // vm.$refs.userHeader.style.color="#fff!important"
+        })
+      }else{
+        next();
+      }
     }
   // watch: {
   //   $route (newVal, oldVal) {
@@ -238,6 +257,9 @@ export default {
 </script>
 
 <style lang="scss">
+.headers .van-nav-bar__title,.headers>.van-nav-bar .van-icon,.headers .van-nav-bar__text{
+  color:#fff;
+}
 .loginList>div,.loginList>ul{
   width:25%;
   text-align: center;
@@ -304,7 +326,7 @@ export default {
   background-image: -webkit-linear-gradient(294deg,#fd465f 0,#fc5e9f 100%);
   background-image: linear-gradient(-204deg,#fd465f 0,#fc5e9f 100%);
 }
-.header{
+.headers{
   background-color: rgba(255,255,255,0)!important;
 }
 .van-nav-bar__title{
