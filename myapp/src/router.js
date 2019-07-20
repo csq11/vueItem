@@ -107,6 +107,11 @@ const router = new Router({
       // }
     },
     {
+      path: '/payment',
+      name: 'payment',
+      component: () => import('./views/payment.vue')
+    },
+    {
       path: '/user', // 浏览器地址输入/home时
       name: 'user', // 路由的名字----命名路由
       // component: () => import('./views/user/index.vue')

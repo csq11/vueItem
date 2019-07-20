@@ -2,7 +2,7 @@
   <div class="container">
     <header class="header">
       <div class="search-box">
-        <input type="text" placeholder="搜索商品 分类 功效" disabled>
+        <input class="home-input" type="text" placeholder="搜索商品 分类 功效" disabled>
         <van-button class="popsearch" @click="showPopsearch"></van-button>
         <van-popup class="vanpop" v-model="show1" position="right" :style="{width:'100%',height:'100%'}">
           <div class="s-top">
@@ -143,13 +143,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .search-box {
   width:100%;
   height: 100%;
   background: #fff;
   position:relative;
-  input {
+  .home-input {
     display:inline-block;
     width:80%;
     height:80%;

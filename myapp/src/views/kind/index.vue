@@ -59,21 +59,24 @@ export default {
       // console.log('data',data)
       this.kindlist = data
     })
-    
+    const content = document.querySelector('.content')
+    content.addEventListener('scroll', this.onScroll)
     // console.log(123);
-    //js事件委托
+    // js事件委托
     const header = document.querySelector('.header')
-    header.onclick = function(ev){
-      // console.log(header.children[0])
-      for(var i=0;i<header.children.length;i++){
-        // console.log(header.children[i])
+    header.onclick = function (ev) {
+      for(var i = 0; i < header.children.length; i++){
+        console.log(header.children[i])
         header.children[i].classList.remove("active")
       }
-      var ev = ev || window.event;
-      var target = ev.target || ev.srcElement;
-      //alert(target.innerHTML);
-      if(target.nodeName.toLowerCase() == "div"){
-        target.classList.add("active");
+      ev = ev || window.event;
+      var target = ev.target || ev.srcElement
+      // alert(target.innerHTML);
+      if (target.nodeName.toLowerCase() === "div"){
+        target.classList.add("active")
+        //状态type切换
+        var type=target.getAttribute("data-type");
+        console.log(this.$store)
       }
     }
   },
@@ -94,28 +97,11 @@ export default {
       changeType(type){
         const content = document.querySelector('.content');
         content.scrollTop = 0; 
-        // alert(123466);
-        // alert(1);
-        // if(type===1){
-        //   fetch('http://10.11.56.133:3000/products/?count=10&pageNum=1&productType=1').then(res => res.json()).then(data => {
-        //     console.log(data)
-        //     this.kindlist = data
-        //   })
-        // } else {
-          // alert('sss');
-          this.finished = false;
-          // this.loading = false
-          // this.$options.methods.onLoad();
-          // paging/?count=10&pageNum='+this.pageNum+'&
-          fetch('http://localhost:3000/products/?productType='+type).then(res => res.json()).then(data => {
+        this.finished = false;
+        fetch('http://localhost:3000/products/?productType='+type).then(res => res.json()).then(data => {
             // console.log("s",data)
-            if(data!=""||data!=null){
-              // for(var i=0;i<data.length;i++){
-              //   alert(JSON.stringify(data[i].image_url));
-              // }
-              
-              // alert("aaaaa");
-              var elem = document.getElementsByClassName("kindlist");
+        if(data!=""||data!=null){
+            var elem = document.getElementsByClassName("kindlist");
               elem[0].innerHTML = "";
               var fragment = document.createDocumentFragment();
               if(type!=this.productType){
@@ -150,9 +136,7 @@ export default {
             }else {
               this.finished=true;
               this.hide=true;
-            }
-            
-            // alert(this.productType);
+            }            
           })
         }
       }
