@@ -1,7 +1,7 @@
 <template>
   <div id="pay">
     <div class="pay-title">
-       <van-icon class="p-left" name="arrow-left" />
+       <van-icon class="p-left" name="arrow-left" @click="clickLeft" />
        <span class="p-title">结算中心</span>
        <van-icon class="p-right" name="wap-home" />
     </div>
@@ -44,6 +44,11 @@ import { Cell, CellGroup, Icon } from 'vant'
 Vue.use(Cell).use(CellGroup)
 Vue.use(Icon)
 export default {
+  methods: {
+    clickLeft () {
+      this.$router.back()
+    }
+  }
 }
 </script>
 
