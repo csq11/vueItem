@@ -2,7 +2,7 @@
   <div class="container">   
     <div class="content">
       <div class="header_con">
-        <van-nav-bar ref="userHeader" title="我的聚美" left-text="" left-arrow class="headers" :border="borderFlag">
+        <van-nav-bar ref="userHeader" title="我的聚美" left-text="" left-arrow class="headers" :border="borderFlag" @click-right="goHome">
           <van-icon  class = "iconfont icon-shouye" slot="right" />
         </van-nav-bar>
       <!-- <header class="header">个人中心头部</header> -->
@@ -21,7 +21,9 @@
       </div>
       <div class="iconDiv bk_w loginList" v-show="loginFlag">
           <div class="loginHeder">
-            <img class="user" src="../../images/nologin.png" alt="头像">
+            <div>
+                <img src="../../images/loginImg.png" alt="头像">
+            </div>
           </div>
           <ul>
             <li><van-icon name="like-o"/></li>
@@ -80,7 +82,7 @@
           <div>聚美余额</div>
           <div>礼品卡</div>
       </div>
-      <div class="mt_10 order bk_w">
+      <div class="mt_10 order bk_w" @click="goServer">
           <div>
             <van-icon name="service-o" class="mr_10"/>
             <span>售后服务</span>
@@ -89,7 +91,7 @@
             <van-icon name="arrow" class="ml_10"/>
           </div>              
       </div>
-      <div class="order bk_w">
+      <div class="order bk_w" @click="goAdvice">
           <div>
             <van-icon name="records" class="mr_10"/>
             <span>意见反馈</span>
@@ -98,7 +100,7 @@
             <van-icon name="arrow" class="ml_10"/>
           </div>              
       </div>
-      <div class="order bk_w">
+      <div class="order bk_w" @click="goAddress">
           <div>
             <van-icon name="logistics" class="mr_10"/>
             <span>收货地址</span>
@@ -184,6 +186,30 @@ export default {
       }
     },
     methods: {
+      goAdvice () {
+        if(this.$store.state.loginState === 'ok'){
+          this.$router.replace('/advice')
+        } else {
+          this.$router.replace('/login')
+        }
+      },
+      goServer () {
+        if(this.$store.state.loginState === 'ok'){
+          this.$router.replace('/server')
+        } else {
+          this.$router.replace('/login')
+        }
+      },
+      goAddress () {
+        if(this.$store.state.loginState === 'ok'){
+          this.$router.replace('/address')
+        } else {
+          this.$router.replace('/login')
+        }
+      },
+      goHome () {
+        this.$router.replace('/home')
+      },
       outLogin () {
         Dialog.confirm({
             title: '提示',
@@ -200,7 +226,7 @@ export default {
       }
     },
     beforeRouteEnter(to,from,next){
-      if(from.name==="login"||from.name==="register"){
+      // if(from.name==="login"||from.name==="register"){
         // location.reload()
         next(vm=>{
           var a=document.querySelector(".van-nav-bar .van-icon")
@@ -208,14 +234,14 @@ export default {
           a.style.cssText ="color:#fff!important;"
           b[0].style.cssText ="color:#fff!important;"
           // b.style.color="#fff"
-          console.log(b[0])
+          // console.log(b[0])
           // console.log(vm.$refs.userHeader)
           // vm.$store.commit("changeUser","user")
           // vm.$refs.userHeader.style.color="#fff!important"
         })
-      }else{
-        next();
-      }
+      // }else{
+      //   next();
+      // }
     }
   // watch: {
   //   $route (newVal, oldVal) {
@@ -265,12 +291,22 @@ export default {
   text-align: center;
 }
 .loginHeder{
-  position: relative;
+  position: relative; 
 }
-.loginHeder img{
+.loginHeder>div{
+  background-color:#fff;  
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border:1px solid #999;
+  overflow: hidden;
   position: absolute;
   top:-100%;
-  left:60%;
+  left: 30%;
+}
+.loginHeder>div img{
+  width: 100%;
+  height: 100%;
 }
 .login_info{
   padding-top:.3rem;
@@ -340,9 +376,9 @@ export default {
 .user{
   height: 60px;
   width: 60px;
-  margin-left:-30px;
   position: relative;
   left:50%;
+  margin-left:-30px;
 }
 .user_btn{
   display: flex;

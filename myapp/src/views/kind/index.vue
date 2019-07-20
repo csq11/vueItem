@@ -78,22 +78,9 @@ export default {
     }
   },
   methods: {
-      // onLoad () {
-      //   console.log(2222);
-      //   fetch('http://10.11.56.133:3000/products/paging/?count=10&pageNum='+this.pageNum*1+'&productType='+this.productType).then(res => res.json()).then(data => {
-      //       this.loading = false // 数据加载完毕
-      //       this.pageNum++
-      //       if (data.length === 0) {
-      //         console.log('没有数据了')
-      //         this.finished = true // 没有数据了
-      //       } else {
-      //         // 有数据就要涉及到数字的合并   concat
-      //         this.kindlist = [...this.kindlist, ...data]
-      //         // console.log('aaa',this.kindlist);
-      //       }
-      //   })
-       
-      //   },
+      goDetail (id) {
+        this.$router.push({ path: '/detail/' + id }) // object
+      },
       onScroll(){
         var bH=document.querySelector('.kindlist').offsetHeight-500;
          // console.log('bh',bH);
@@ -103,12 +90,6 @@ export default {
           }else {
             this.flag = false
           }
-          // if(event.target.scrollTop>bH){
-          //   alert("bh");
-          //   // console.log(0);
-          //   this.$options.methods.changeType(this.productType);
-          //    // this.changeType(this.productType) 
-          // }
       },
       changeType(type){
         const content = document.querySelector('.content');
@@ -127,7 +108,7 @@ export default {
           // this.$options.methods.onLoad();
           // paging/?count=10&pageNum='+this.pageNum+'&
           fetch('http://localhost:3000/products/?productType='+type).then(res => res.json()).then(data => {
-            console.log("s",data)
+            // console.log("s",data)
             if(data!=""||data!=null){
               // for(var i=0;i<data.length;i++){
               //   alert(JSON.stringify(data[i].image_url));
@@ -144,7 +125,7 @@ export default {
               }
               var str="";
               for(let i=0;i<this.kindlist.length;i++){
-                str+='<li class="kinditem" @click="goDetail('+data.id+')" :key="index">'+
+                str+='<li class="kinditem" :key="index">'+
                   '<div class="itemimg">'+
                     '<img src="'+data[i].image_url.split(',')[0]+'"/>'+
                   '</div>'+
@@ -155,7 +136,7 @@ export default {
                       '<li>￥'+data[i].normal_price+'</li>'+
                       '<li>单买价'+data[i].normal_price+'</li>'+
                     '</ul>'+
-                    '<div class="buyBtn">去开团</div>'+
+                    '<div class="buyBtn" @click="goDetail('+data[i].id+')">去开团</div>'+
                   '</div>'+
                 '</li>';
               }
@@ -203,5 +184,7 @@ export default {
     color:#fe4070;
     border-bottom: 1px #fe4070 solid;
   }
-
+  .kinditem{
+    background:#fff;
+  }
 </style>

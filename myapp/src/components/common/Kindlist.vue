@@ -1,7 +1,7 @@
 <template>
   <ul class="kindlist">
     <!-- 编程式跳转 -->
-    <li class="kinditem" v-for="(item, index) of kindlist" @click="goDetail(item.id)" :key="index">
+    <li class="kinditem" v-for="(item, index) of kindlist" :key="index">
       <div class="itemimg">
         <img :src="item.image_url.split(',')[0]"/>
       </div>
@@ -12,7 +12,7 @@
           <li>￥{{ item.normal_price }}</li>
           <li>单买价{{ item.normal_price }}</li>
         </ul>
-        <div class="buyBtn">去开团</div>
+        <div class="buyBtn"  @click="goDetail(item.id)">去开团</div>
       </div>
     </li>
   </ul>

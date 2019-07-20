@@ -29,6 +29,27 @@ const router = new Router({
       }
     },
     {
+      path: '/server',
+      name: 'server',
+      components: {
+        default: () => import('@/views/server/index.vue')
+      }
+    },
+    {
+      path: '/advice',
+      name: 'advice',
+      components: {
+        default: () => import('@/views/advice/index.vue')
+      }
+    },
+    {
+      path: '/address',
+      name: 'address',
+      components: {
+        default: () => import('@/views/address/index.vue')
+      }
+    },
+    {
       // path: '/detail',
       path: '/detail/:id', // :代表此处的值为参数，id为参数的名字
       name: 'detail', // 如果需要动态传参，那么就需要使用到命名路由
