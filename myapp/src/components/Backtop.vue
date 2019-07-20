@@ -1,9 +1,5 @@
 <template>
-  <div class="backTop" v-show = "show" @click="backtop">
-    <div class="upArrow">
-      <van-icon name="upgrade" size="30px"/>
-    </div>
-  </div>
+      <van-icon @click="backtop" v-show = "show" class="backTop" name="arrow-up" color="#999"/>
 </template>
 
 <script>
@@ -51,21 +47,24 @@ export default {
 </script>
 
 <style lang="scss">
-  .upArrow {
+  /*.upArrow {
     background: #fff;
-  }
+  }*/
   .backTop {
+    border:1px solid #999;
     border-radius: 50%;
     position: fixed;
     bottom: 0.6rem;
     right: 15px;
     width: 40px;
     height: 40px;
+    line-height: 40px;
     background: #fff;
-    z-index: 99;
+    z-index: 999;
     overflow: hidden;
     color: #666;
-    font-size:40px!important;
+    font-size:20px;
+    text-align: center;
   }
 </style>
 
