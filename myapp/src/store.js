@@ -6,7 +6,24 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: { // 需要管理的组件的状态
     loginState: '',
-    tel:''
+    tel:'',
+    cartList: []
+  },
+  getters: {
+    totalNum (state) {
+      let totalNum = 0
+      state.cartList.map(item => {
+        item.flag ? totalNum += item.num : totalNum += 0
+      })
+      return totalNum
+    },
+    totalPrice (state) {
+      let totalPrice = 0
+      state.cartList.map(item => {
+        item.flag ? totalPrice += item.price * item.num : totalPrice += 0
+      })
+      return totalPrice
+    }
   },
   mutations: { // 唯一改变状态的地方
     changeLoginState (state, data) { // state代表的是初始化的数据，data代表改变的数据
@@ -14,6 +31,9 @@ export default new Vuex.Store({
     },
     changeUser (state, data) { // state代表的是初始化的数据，data代表改变的数据
       state.tel = data
+    },
+    changeCartList (state,data) {
+      state.cartList = data.result
     }
   },
   actions: { // 异步操作

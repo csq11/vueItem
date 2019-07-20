@@ -334,7 +334,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .topbar {
   background:#e9e8e8;
   color:#222;
